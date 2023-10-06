@@ -1,9 +1,17 @@
+
+## AutoGen N-Agent Example
+### Initial setup for the notebook to work
+
+# *WARNING:* This will cost money to run. In my case it cost about 0.20 USD using the basic ChatGPT-4 model. It can add up real fast so watch your usage closely. 
+
 # just show stdout not stderr messages
-%%capture --no-stderr
+# %%capture --no-stderr
 
 # uncomment to install pyautogen if you don't have it already
 # %pip install pyautogen
 
+
+### Import the autogen package and do agent configuration
 import autogen
 from autogen import AssistantAgent, UserProxyAgent, config_list_from_json
 
@@ -20,6 +28,8 @@ gpt4_config = {
     "request_timeout": 120,
 }
 
+
+### Setup the agents
 user_proxy = autogen.UserProxyAgent(
     name="Admin",
     system_message="A human to get started. Once the instructions are clear, assume the plan is approved.",
@@ -61,9 +71,13 @@ critic = autogen.AssistantAgent(
     llm_config=gpt4_config,
 )
 
+
+## Assemble the agents into a group chat
 groupchat = autogen.GroupChat(agents=[user_proxy, engineer, scientist, planner, executor, critic], messages=[], max_round=10)
 manager = autogen.GroupChatManager(groupchat=groupchat, llm_config=gpt4_config)
 
+
+### Launch the chat
 user_proxy.initiate_chat(
     manager,
     message="""
