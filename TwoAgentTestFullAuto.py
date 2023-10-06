@@ -10,8 +10,7 @@ assistant = AssistantAgent("assistant", llm_config={"config_list": config_list})
 # These are hypothetical settings, as exact parameter names and values would depend on the actual implementation of AutoGen
 user_proxy = UserProxyAgent("user_proxy", 
     code_execution_config={"work_dir": "coding"},
-    human_input_mode='off', 
-    max_consecutive_auto_reply=1000)
+    human_input_mode='NEVER')
 
 # This initiates an automated chat between the two agents to solve the task
 user_proxy.initiate_chat(assistant, message="Plot a chart of NVDA and TESLA stock price change YTD.")
